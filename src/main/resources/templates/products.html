@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Products</title>
+</head>
+<body>
+<h2>Products</h2>
+<div class="nav">
+    <a href="/categories">Categories</a>
+    <a href="/audit">Audit Logs</a>
+    <a href="/api/products">REST API</a>
+</div>
+<ul>
+    <li th:each="product, stat : ${products}">
+        [[${stat.count}]]: [[${product.name}]] - [[${product.price}]]
+        (Category: [[${product.category.name}]])
+
+        <a th:href="@{/products/edit/{id}(id=${product.id})}">Edit</a>
+        <a th:href="@{/products/delete/{id}(id=${product.id})}">Delete</a>
+    </li>
+</ul>
+
+
+<h3>Add Product</h3>
+<form th:action="@{/products}" method="post">
+    <input type="text" name="name" placeholder="Product name" required />
+    <input type="number" step="0.01" name="price" placeholder="Price" required />
+
+    <!-- Выпадающий список категорий вместо поля ввода ID -->
+    <select name="category_id" required>
+        <option value="">Select Category</option>
+        <option th:each="cat : ${categories}"
+                th:value="${cat.id}"
+                th:text="${cat.name}">
+        </option>
+    </select>
+
+    <button type="submit">Add</button>
+</form>
+
+</body>
+</html>

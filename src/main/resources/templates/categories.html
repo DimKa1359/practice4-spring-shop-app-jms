@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Categories</title>
+</head>
+<body>
+<h2>Categories</h2>
+<div class="nav">
+    <a href="/products">Products</a>
+    <a href="/audit">Audit Logs</a>
+    <a href="/api/categories">REST API</a>
+</div>
+<ul>
+    <li th:each="category, stat : ${categories}">
+        <!-- порядковый номер в списке -->
+        [[${stat.count}]]: [[${category.name}]]
+
+        <a th:href="@{/categories/edit/{id}(id=${category.id})}">Edit</a>
+        <a th:href="@{/categories/delete/{id}(id=${category.id})}">Delete</a>
+    </li>
+</ul>
+
+<h3>Add Category</h3>
+<form th:action="@{/categories}" method="post">
+    <input type="text" name="name" placeholder="Category name" required />
+    <button type="submit">Add</button>
+</form>
+
+</body>
+</html>
